@@ -1,5 +1,3 @@
-// URL de tu API (Asegúrate de que main.py esté corriendo en el puerto 8000)
-const API_URL = "http://127.0.0.1:8000";
 
 // Estado de la aplicación
 let selectedGogItem = null;
@@ -132,7 +130,7 @@ async function compararVersiones() {
     };
 
     try {
-        const response = await fetch(`${API_URL}/compare`, {
+        const response = await fetch(`/compare`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)

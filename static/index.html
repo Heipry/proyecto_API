@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOG vs SteamDB | Version Checker</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <style>
+        /* Estilo simple para resaltar la selección */
+        .list-group-item.active-gog {
+            background-color: #8a2be2 !important; /* Morado GOG */
+            color: white;
+            border-color: #8a2be2;
+        }
+        .list-group-item.active-steam {
+            background-color: #1b2838 !important; /* Azul Steam */
+            color: white;
+            border-color: #1b2838;
+        }
+        .cursor-pointer { cursor: pointer; }
+        .platform-logo { font-size: 1.5rem; margin-right: 10px; }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold"><i class="bi bi-controller"></i> Version Checker</h1>
+        <p class="lead text-muted">Compara la fecha del paquete de GOG frente a Steam</p>
+    </div>
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-8">
+            <div class="input-group input-group-lg">
+                <input type="text" id="searchInput" class="form-control" placeholder="Escribe el nombre del juego (ej. Fallout 4)...">
+                <button class="btn btn-primary" type="button" id="btnSearch" onclick="buscarJuegos()">
+                    <i class="bi bi-search"></i> Buscar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="resultsArea" class="row g-4 d-none">
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-header bg-white fw-bold text-uppercase" style="color: #8a2be2;">
+                    <i class="bi bi-gpu-card"></i> Resultados GOG
+                </div>
+                <div class="list-group list-group-flush" id="gogList">
+                    </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-header bg-white fw-bold text-uppercase" style="color: #1b2838;">
+                    <i class="bi bi-steam"></i> Resultados Steam
+                </div>
+                <div class="list-group list-group-flush" id="steamList">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4 d-none" id="actionArea">
+        <div class="alert alert-info d-inline-block">
+            <span id="selectionSummary">Selecciona un juego de cada columna</span>
+        </div>
+        <br>
+        <button id="btnCompare" class="btn btn-success btn-lg px-5 mt-2 disabled" onclick="compararVersiones()">
+            <i class="bi bi-arrow-left-right"></i> COMPARAR VERSIONES
+        </button>
+    </div>
+
+    <div id="verdictArea" class="row justify-content-center mt-5 d-none">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header text-center text-white" id="verdictHeader">
+                    <h3 class="mb-0" id="verdictTitle">RESULTADO</h3>
+                </div>
+                <div class="card-body p-4 text-center">
+                    <h2 class="card-title fw-bold mb-4" id="gameTitleDisplay">Juego</h2>
+                    
+                    <div class="row">
+                        <div class="col-6 border-end">
+                            <h5 class="text-muted">GOG</h5>
+                            <p class="display-6 fw-bold" id="gogDateDisplay">--</p>
+                            <small class="text-muted" id="gogVersionDisplay">v1.0</small>
+                        </div>
+                        <div class="col-6">
+                            <h5 class="text-muted">SteamDB</h5>
+                            <p class="display-6 fw-bold" id="steamDateDisplay">--</p>
+                            <small class="text-muted" id="steamVersionDisplay">Patch...</small>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+                    
+                    <div class="alert" id="verdictMessageAlert" role="alert">
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

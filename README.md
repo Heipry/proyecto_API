@@ -4,7 +4,7 @@
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=flat-square)
 ![FastAPI](https://img.shields.io/badge/FastAPI-High%20Performance-009688?style=flat-square)
 
-### 🔗 Acceder a la herramienta: [https://gog-steam-checker.onrender.com/](https://gog-steam-checker.onrender.com/)
+### 🔗 [Acceder a la herramienta](https://heipry.github.io/proyecto_API/)
 
 ---
 
@@ -43,7 +43,7 @@ El código ilustra conceptos clave para formaciones:
 
 ## 🚀 Despliegue
 
-El servicio se encuentra desplegado y operativo en la nube.
+El servicio se encuentra desplegado y operativo en la nube (Hay que despertarlo para que empiece a funcionar.
 [https://gog-steam-checker.onrender.com/](https://gog-steam-checker.onrender.com/)
 
 > **Nota:** La ejecución en local requiere configuración de variables de entorno privadas para el acceso a los proveedores de datos por lo que esa información queda restringida.

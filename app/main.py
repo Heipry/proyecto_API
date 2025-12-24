@@ -1,6 +1,6 @@
 import os
 from fastapi.middleware.cors import CORSMiddleware
-
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -16,7 +16,17 @@ from app.services.steam_service import search_steam, get_steam_game_version
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONT_DIR = os.path.join(BASE_DIR, "static")
 
-app = FastAPI(title="GOG vs SteamDB Version Checker")
+
+app = FastAPI()
+
+# Configuración vial para que funcione el script desde la Landing Page
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permite que el JS de GitHub Pages verifique el estado
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.mount("/static", StaticFiles(directory=FRONT_DIR), name="static")
 

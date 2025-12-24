@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOG vs Steam Checker | Javier Díaz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .tech-badge { font-size: 0.85rem; margin-right: 5px; }
+        .hero-section { background: white; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        /* Animación suave para el botón */
+        #launchBtn { transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="d-flex align-items-center min-vh-100">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                
+                <div class="hero-section p-5">
+                    <div class="text-center mb-4">
+                        <span class="badge bg-primary mb-2">Proyecto Educativo</span>
+                        <h1 class="fw-bold text-dark">GOG Version Checker</h1>
+                        <p class="text-muted">Desarrollado por Javier Díaz</p>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="mb-4">
+                        <h5>📖 Historia del Proyecto</h5>
+                        <p class="small text-secondary">
+                            Diseñado en <strong>Mayo 2025</strong> como demostración práctica para mis alumnos sobre cómo consumir APIs de terceros y desplegar microservicios en Python.
+                        </p>
+                        <p class="small text-secondary">
+                            Resuelve el problema de saber si los instaladores "offline" de GOG están realmente actualizados comparándolos con la base de datos en tiempo real de Steam.
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>🛠️ Stack Tecnológico</h5>
+                        <div>
+                            <span class="badge bg-secondary tech-badge">Python 3.10</span>
+                            <span class="badge bg-success tech-badge">FastAPI</span>
+                            <span class="badge bg-info text-dark tech-badge">Render Cloud</span>
+                            <span class="badge bg-warning text-dark tech-badge">CI/CD</span>
+                        </div>
+                    </div>
+ 
+                    <div class="mb-4">
+                        <p class="small text-secondary mb-2">📹 Por si quieres conocerme:</p>
+                        <div class="ratio ratio-16x9 shadow-sm rounded overflow-hidden">
+                            <iframe 
+                                src="https://www.youtube.com/embed/6xbrvIsYxCY?rel=0" 
+                                title="Presentación Javier Díaz" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 mt-5">
+                    
+                <div class="d-grid gap-2 mt-5">
+                        <a href="#" id="launchBtn" class="btn btn-secondary btn-lg disabled">
+                            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                            Despertando Servidor en la Nube...
+                        </a>
+                        <p class="text-center text-muted form-text mt-2" id="statusText">
+                            <small>Al usar un plan gratuito, el servidor entra en reposo. Estamos reactivándolo para ti.</small>
+                        </p>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-top">
+                        <p class="small text-secondary mb-3">Mientras esperas, te invito a conocer más sobre mi trabajo:</p>
+                        
+                        <div class="row g-2">
+                            <div class="col-sm-4">
+                                <a href="https://javierdiaz.com.es/" target="_blank" class="btn btn-outline-dark w-100 btn-sm">
+                                    🌐 Mi Web
+                                </a>
+                            </div>
+                            <div class="col-sm-4">
+                                <a href="https://blog.javierdiaz.com.es/" target="_blank" class="btn btn-outline-dark w-100 btn-sm">
+                                    ✍️ Blog
+                                </a>
+                            </div>
+                            <div class="col-sm-4">
+                                <a href="https://recursos.javierdiaz.com.es/" target="_blank" class="btn btn-outline-dark w-100 btn-sm">
+                                    📂 Portfolio
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    </div> 
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // URL REAL DE TU APP EN RENDER
+        const RENDER_URL = "https://gog-steam-checker.onrender.com/"; 
+
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("📡 Iniciando secuencia de despertar...");
+            startPolling();
+        });
+
+        function enableButton() {
+            const btn = document.getElementById('launchBtn');
+            const txt = document.getElementById('statusText');
+            
+            // Evitamos parpadeos si ya estaba activo
+            if (!btn.classList.contains('disabled')) return;
+
+            btn.classList.remove('btn-secondary', 'disabled');
+            btn.classList.add('btn-success'); // Verde éxito
+            btn.innerHTML = "🚀 Lanzar Aplicación";
+            btn.setAttribute('href', RENDER_URL);
+            
+            txt.innerHTML = "<small>¡Sistema listo! Servidor conectado.</small>";
+            txt.classList.remove('text-muted');
+            txt.classList.add('text-success', 'fw-bold');
+        }
+
+        function startPolling() {
+            // Guardamos el ID del intervalo para poder matarlo luego
+            let checkInterval = setInterval(async () => {
+                try {
+                    console.log("Ping...");
+                    // Hacemos petición ligera a /docs
+                    const response = await fetch(RENDER_URL + "docs"); 
+                    
+                    if (response.ok) {
+                        console.log("✅ ¡Conexión establecida!");
+                        
+                        // 1. Activamos el botón
+                        enableButton();
+                        
+                        // 2. ¡IMPORTANTE! Matamos el bucle aquí mismo
+                        clearInterval(checkInterval); 
+                        console.log("🛑 Polling detenido.");
+                    }
+                } catch (e) {
+                    console.log("💤 Servidor dormido, reintentando en 5s...");
+                }
+            }, 5000); // Reintenta cada 5 segundos
+            
+            // Opcional: Seguridad por si falla todo, activar a los 20s de todas formas
+            setTimeout(() => {
+                enableButton();
+                clearInterval(checkInterval); // Aseguramos que pare también aquí
+            }, 20000);
+        }
+    </script>
+</body>
+</html>
